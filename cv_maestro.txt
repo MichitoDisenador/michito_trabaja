@@ -1,0 +1,46 @@
+{
+  "nombre": "PAOLA HERRERA SOL",
+  "subtitulo": "Diseñadora Gráfica Digital | Especialista en Análisis de Datos y Consumer Insights",
+  "contacto": "Tapachula, Chiapas, México | +52 961 920 0890 | sapichaan@gmail.com | linkedin.com/in/michito-disenador",
+  "perfil": "Profesional con sólida experiencia en el análisis visual de datos de consumidor y la optimización de contenido basada en métricas de desempeño. Especialista en la interpretación de briefs, consolidación de información de múltiples fuentes y generación de reportes ejecutivos que facilitan la toma de decisiones. Manejo avanzado de herramientas de análisis de datos (Excel, tablas dinámicas, Power Query, Power BI) y plataformas de visualización. Inglés B2 con comprensión técnica avanzada para interpretar estudios de mercado y colaborar con equipos regionales. Experiencia comprobada en la gestión de proyectos multidisciplinarios y trabajo con equipos de marketing.",
+  "experiencia": [
+    {
+      "puesto": "Diseñadora Gráfica Digital y Analista de Marketing",
+      "empresa": "Astros Marketing",
+      "fechas": "2020 – Presente",
+      "ubicacion": "México",
+      "logros": [
+        "Procesé y consolidé información de desempeño de campañas digitales (Meta Ads, TikTok Ads), identificando patrones de comportamiento y oportunidades de optimización que incrementaron el ROI en un 25%.",
+        "Administré y analicé bases de datos de métricas de engagement y conversión para más de 50 campañas, generando dashboards en Excel y Power BI para la toma de decisiones estratégicas."
+      ]
+    }
+  ],
+  "educacion": {
+    "carrera": "Licenciatura en Diseño Gráfico",
+    "universidad": "Universidad Interamericana para el Desarrollo (UNID)",
+    "ubicacion": "Campus Tapachula, Chiapas, México",
+    "año": "Certificado, 2015"
+  },
+  "habilidades": {
+    "analisis_datos": [
+      "Manejo avanzado de Excel (tablas dinámicas, Power Query, cruces de información, análisis estadístico)",
+      "Construcción de dashboards y reportes ejecutivos en Power BI y Tableau"
+    ],
+    "herramientas": [
+      "Adobe Creative Cloud (Photoshop, Illustrator, InDesign, Premiere Pro, After Effects)",
+      "Figma, Canva Pro, CapCut"
+    ]
+  },
+  "idiomas": [
+    "Español — Nativo (México)",
+    "Inglés — B2 (capacidad para interpretar estudios, elaborar reportes y colaborar con equipos regionales)"
+  ],
+  "cursos": [
+    "Power BI para Análisis de Datos — En curso, 2025",
+    "Excel Avanzado para Business Intelligence — En curso, 2025"
+  ],
+  "logros": [
+    "Optimización de campañas digitales: Incremento del 25% en ROI mediante análisis de datos de consumidor.",
+    "Gestión exitosa de +50 proyectos simultáneos con equipos multidisciplinarios."
+  ]
+}
