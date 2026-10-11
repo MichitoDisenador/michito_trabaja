@@ -2,193 +2,197 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Generador Inteligente de CV </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Generador Inteligente de CV</title>
 
-    <!-- ========================================== -->
-    <!-- FUENTES GOOGLE (Roboto, etc)              -->
-    <!-- ========================================== -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+    <!-- Fuentes Google: Roboto y Playfair Display para un toque premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome 6 (iconos vectoriales) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
     <style>
         /* ==========================================
-                   RESET Y ESTILOS GLOBALES (MODO OSCURO)
-                   ========================================== */
+           RESET Y ESTILOS GLOBALES (MODO OSCURO PREMIUM)
+           ========================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-deep: #0a0a0a;
+            --bg-app: #111010;
+            --bg-panel: #1a1817;
+            --bg-input: #0f0e0d;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-gold: rgba(212, 175, 55, 0.25);
+            --text-white: #f2f0ed;
+            --text-gray: #a8a29e;
+            --text-dim: #6b6560;
+            --gold: #d4af37;
+            --gold-soft: #c9a227;
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #b8941e 100%);
+            --shadow-premium: 0 20px 40px -12px rgba(0, 0, 0, 0.9);
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
-            background: #0b0a0a;
-            /* fondo casi negro */
-            color: #e5e0d8;
-            /* texto claro */
-            font-family: 'Segoe UI', Roboto, Arial, Calibri, sans-serif;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-white);
+    min-height: 100vh;
+    padding: 0;
+    display: block;
+    line-height: 1.5;
+}
 
-        /* contenedor principal */
-        .app {
-            max-width: 1400px;
-            width: 100%;
-            background: #141110;
-            /* fondo oscuro con un toque cálido */
-            border-radius: 32px;
-            padding: 30px 30px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px #d4af37 / 20 inset;
-            border: 1px solid rgba(212, 175, 55, 0.15);
-        }
+.header h1 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header h1 small {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header-controls select {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.panel h2 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+textarea,
+.file-input-wrapper {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-gold {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-outline-gold {
+    font-family: 'Montserrat', sans-serif;
+}
+
+ /* Contenedor interno para limitar el ancho del contenido */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+    width: 100%;
+}  
+     
+        /* ==========================================
+           ENCABEZADO
+           ========================================== */
+    
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 20px;
+    padding: 32px 32px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.25;
+}
 
         /* ==========================================
-                   ENCABEZADO
-                   ========================================== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 28px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-            padding-bottom: 18px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #f5e6b0 0%, #d4af37 70%, #b8941e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header h1 small {
-            font-size: 14px;
-            font-weight: 400;
-            -webkit-text-fill-color: #a0978a;
-            background: none;
-            color: #a0978a;
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .header-controls label {
-            color: #c4b59a;
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .header-controls select {
-            background: #25211e;
-            color: #f0e8dc;
-            border: 1px solid #d4af37 / 40;
-            border-radius: 8px;
-            padding: 6px 14px;
-            font-size: 14px;
-            font-weight: 400;
-            cursor: pointer;
-            outline: none;
-            transition: border 0.2s;
-        }
-
-        .header-controls select:hover,
-        .header-controls select:focus {
-            border-color: #d4af37;
-        }
-
-        /* ==========================================
-                   GRID: IZQUIERDA (config) + DERECHA (vista)
-                   ========================================== */
+           GRID PRINCIPAL
+           ========================================== */
         .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 28px;
-        }
-
-        @media (max-width: 1000px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+    width: 100%;
+}
 
         /* ==========================================
-                   PANELES
-                   ========================================== */
+           PANELES
+           ========================================== */
         .panel {
-            background: #1b1816;
-            border-radius: 20px;
-            padding: 22px 24px 28px;
-            border: 1px solid rgba(212, 175, 55, 0.10);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            transition: border-color 0.2s;
+            background: var(--bg-panel);
+            border-radius: var(--radius-md);
+            padding: 24px 22px 28px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.8);
+            transition: border-color 0.25s;
+            display: flex;
+            flex-direction: column;
         }
 
         .panel:hover {
-            border-color: rgba(212, 175, 55, 0.25);
+            border-color: var(--border-gold);
         }
 
-        .panel h2 {
+    .panel h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;           /* antes 18px */
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+        .panel h2 i {
+            color: var(--gold);
             font-size: 18px;
-            font-weight: 600;
-            color: #d4af37;
-            letter-spacing: 0.3px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            padding-bottom: 10px;
-        }
-
-        .panel h2 span {
-            font-size: 22px;
+            width: 22px;
+            text-align: center;
         }
 
         /* ==========================================
-                   ÁREA DE TEXTO / INPUTS
-                   ========================================== */
+           ÁREA DE TEXTO / INPUTS
+           ========================================== */
         textarea,
         .file-input-wrapper {
             width: 100%;
-            background: #12100e;
-            border: 1px solid #3a342e;
-            border-radius: 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
             padding: 14px 16px;
-            color: #e5e0d8;
+            color: var(--text-white);
             font-size: 14px;
-            font-family: inherit;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
             resize: vertical;
-            transition: border 0.25s, box-shadow 0.25s;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            line-height: 1.6;
         }
 
         textarea:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
             outline: none;
         }
 
         textarea {
             min-height: 220px;
-            line-height: 1.6;
         }
 
         .file-input-wrapper {
@@ -206,24 +210,34 @@
         }
 
         .file-input-wrapper .fake-btn {
-            background: #d4af37;
+            background: var(--gold-gradient);
             color: #0b0a0a;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 13px;
-            padding: 6px 18px;
+            padding: 8px 20px;
             border-radius: 40px;
-            transition: background 0.2s;
+            transition: opacity 0.2s, transform 0.15s;
             cursor: pointer;
             border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.02em;
+        }
+
+        .file-input-wrapper .fake-btn i {
+            font-size: 13px;
         }
 
         .file-input-wrapper .fake-btn:hover {
-            background: #e8c84a;
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
         .file-input-wrapper .file-name {
-            color: #b5aa99;
+            color: var(--text-gray);
             font-size: 13px;
+            font-weight: 300;
             flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -231,209 +245,275 @@
         }
 
         .file-status {
-            color: #d4af37;
+            color: var(--text-dim);
             font-size: 13px;
-            margin-top: 6px;
+            font-weight: 300;
+            margin-top: 8px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .file-status i {
+            font-size: 12px;
+        }
+
+        /* Separador sutil */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border-subtle);
+            margin: 20px 0;
         }
 
         /* ==========================================
-                   BOTONES
-                   ========================================== */
+           BOTONES
+           ========================================== */
         .btn-gold {
-            background: linear-gradient(135deg, #d4af37, #b8941e);
+            background: var(--gold-gradient);
             color: #0b0a0a;
-            font-weight: 700;
-            font-size: 16px;
-            padding: 14px 28px;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 16px 28px;
             border: none;
             border-radius: 60px;
             cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.2s;
+            transition: transform 0.15s, box-shadow 0.25s, opacity 0.2s;
             width: 100%;
-            margin-top: 16px;
-            letter-spacing: 0.3px;
+            margin-top: 18px;
+            letter-spacing: 0.03em;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            text-transform: uppercase;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-gold i {
+            font-size: 16px;
         }
 
         .btn-gold:hover {
             transform: scale(1.01);
-            box-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 28px rgba(212, 175, 55, 0.25);
+            opacity: 0.95;
         }
 
         .btn-gold:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
-        .btn-outline-gold {
-            background: transparent;
-            color: #d4af37;
-            border: 2px solid #d4af37;
-            font-weight: 700;
-            font-size: 15px;
-            padding: 12px 24px;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+       .btn-ghost-gold {
+    background: transparent;
+    color: var(--text-gray);
+    border: 1px solid var(--border-subtle);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 12.5px;
+    padding: 10px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
 
-        .btn-outline-gold:hover {
-            background: #d4af37;
-            color: #0b0a0a;
-        }
+.btn-ghost-gold i {
+    color: var(--gold);
+    font-size: 12px;
+}
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn-group .btn-gold,
-        .btn-group .btn-outline-gold {
-            flex: 1;
-            min-width: 140px;
-        }
+.btn-ghost-gold:hover {
+    color: var(--text-white);
+    border-color: var(--border-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
 
         /* ==========================================
-                   VISTA PREVIA DEL CV (estilo Word)
-                   ========================================== */
+           VISTA PREVIA DEL CV (estilo papel premium)
+           ========================================== */
         .cv-preview {
-            background: #ffffff;
-            /* fondo blanco para simular papel */
-            color: #1a1a1a;
-            padding: 36px 38px;
-            border-radius: 16px;
-            min-height: 500px;
-            font-family: 'Calibri', 'Arial', 'Roboto', sans-serif;
-            font-size: 11pt;
-            line-height: 1.6;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-            transition: font-family 0.2s;
-        }
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 48px 52px;
+    border-radius: 4px;
+    min-height: 500px;
+    font-family: 'Roboto', 'Calibri', 'Arial', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
 
-        .cv-preview h1 {
-            text-align: center;
-            font-size: 22pt;
-            color: #003366;
-            margin-bottom: 2px;
-            font-weight: 700;
-        }
+/* Nombre principal */
+.cv-preview h1 {
+    text-align: center;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-size: 24pt;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
 
-        .cv-preview .subtitle {
-            text-align: center;
-            font-size: 10pt;
-            color: #4a4a4a;
-            font-style: italic;
-            margin-bottom: 6px;
-        }
+/* Subtítulo / puesto profesional */
+.cv-preview .subtitle {
+    text-align: center;
+    font-size: 11pt;
+    color: #333;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 22px;
+}
 
-        .cv-preview .contact {
-            text-align: center;
-            font-size: 9pt;
-            color: #4a4a4a;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 16px;
-            margin-bottom: 14px;
-        }
+/* Encabezado de sección */
+.cv-preview .section {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.05em;
+    margin-top: 26px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #000;
+}
 
-        .cv-preview .section {
-            font-size: 11pt;
-            font-weight: 700;
-            color: #003366;
-            text-transform: uppercase;
-            border-bottom: 2px solid #003366;
-            padding-bottom: 3px;
-            margin-top: 16px;
-            margin-bottom: 8px;
-        }
+/* Bloque de contacto (con etiqueta propia) */
+.cv-preview .contact-block {
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
 
-        .cv-preview .job-title {
-            font-weight: 700;
-            font-size: 11pt;
-            margin-top: 10px;
-            margin-bottom: 1px;
-        }
+.cv-preview .contact-block .section {
+    margin-top: 18px;
+}
 
-        .cv-preview .job-company {
-            font-style: italic;
-            font-size: 10pt;
-            color: #4a4a4a;
-            margin-bottom: 2px;
-        }
+.cv-preview .contact-block p {
+    text-align: center;
+    font-size: 10pt;
+    color: #333;
+    margin: 0;
+    padding: 0 6px;
+}
 
-        .cv-preview .bullet {
-            padding-left: 20px;
-            margin-bottom: 3px;
-        }
+/* Habilidades por categoría */
+.cv-preview .skill-category {
+    margin-bottom: 10px;
+}
 
-        .cv-preview .bullet::before {
-            content: "• ";
-        }
+.cv-preview .skill-category .label {
+    font-weight: 700;
+    color: #000;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 10.5pt;
+}
 
-        .cv-preview .keywords {
-            margin-top: 16px;
-            padding: 12px 16px;
-            background: #f5f0e8;
-            border-radius: 10px;
-            border-left: 4px solid #d4af37;
-        }
+.cv-preview .skill-category p {
+    margin: 0;
+    font-weight: 400;
+    color: #1a1a1a;
+}
 
-        .cv-preview .keywords .badge {
-            display: inline-block;
-            background: #d4af37;
-            color: #0b0a0a;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-size: 9pt;
-            font-weight: 600;
-            margin: 3px 4px 3px 0;
-        }
+/* Experiencia: empresa y fechas en negrita */
+.cv-preview .job-header {
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: #000;
+    margin-top: 14px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #999;
-        }
+.cv-preview .job-position {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
 
-        .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
+.cv-preview .job-description {
+    font-weight: 400;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    text-align: justify;
+    margin: 0;
+}
 
-        .empty-state p {
-            font-size: 14px;
-        }
+/* Colaboraciones (lista compacta) */
+.cv-preview .collab-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cv-preview .collab-list li {
+    margin-bottom: 4px;
+    font-weight: 400;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+}
+
+.cv-preview .collab-list li strong {
+    font-weight: 700;
+    color: #000;
+}
+
+/* Educación / Cursos / Idiomas */
+.cv-preview .info-line {
+    font-weight: 400;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.cv-preview .info-line strong {
+    font-weight: 700;
+    color: #000;
+}
 
         /* ==========================================
-                   TOAST / NOTIFICACIONES
-                   ========================================== */
+           TOAST / NOTIFICACIONES
+           ========================================== */
         .toast {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: #25211e;
-            color: #f0e8dc;
+            background: #1f1d1b;
+            color: var(--text-white);
             padding: 16px 26px;
             border-radius: 60px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-            font-weight: 500;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+            font-weight: 400;
+            font-size: 14px;
             transform: translateY(80px);
             opacity: 0;
-            transition: 0.4s ease;
+            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             pointer-events: none;
             z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90vw;
+        }
+
+        .toast i {
+            color: var(--gold);
+            font-size: 16px;
         }
 
         .toast.show {
@@ -442,8 +522,8 @@
         }
 
         /* ==========================================
-                   SCROLL
-                   ========================================== */
+           SCROLL PERSONALIZADO
+           ========================================== */
         .panel-scroll {
             max-height: 85vh;
             overflow-y: auto;
@@ -451,64 +531,316 @@
         }
 
         .panel-scroll::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
 
         .panel-scroll::-webkit-scrollbar-track {
-            background: #1b1816;
+            background: transparent;
         }
 
         .panel-scroll::-webkit-scrollbar-thumb {
-            background: #d4af37;
+            background: var(--border-gold);
             border-radius: 10px;
         }
 
-        /* ==========================================
-                   RESPONSIVE
-                   ========================================== */
-        @media (max-width: 600px) {
-            .app {
-                padding: 16px;
-            }
-            .header h1 {
-                font-size: 20px;
-            }
-            .cv-preview {
-                padding: 20px 16px;
-            }
-            .btn-group {
-                flex-direction: column;
-            }
+        .panel-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
         }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        .footer {
+    padding: 28px 32px 36px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+}
+
+        .footer a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+        }
+
+        .footer a:hover {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .footer a i {
+            font-size: 13px;
+        }
+
+   /* ==========================================
+           RESPONSIVE — CELULAR
+           ========================================== */
+        @media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .panel-scroll {
+        max-height: none;
+        overflow-y: visible;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 22px 18px 18px;
+    }
+
+    .header::after {
+        left: 18px;
+        right: 18px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .header h1 i {
+        font-size: 18px;
+    }
+
+    .header h1 small {
+        font-size: 12px;
+        width: 100%;
+        margin-left: 0;
+    }
+
+      .header-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .header-controls label {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .header-controls select {
+        flex: 1;
+        max-width: 180px;
+    }
+
+    .grid {
+        padding: 20px 18px;
+        gap: 18px;
+    }
+
+    .panel {
+        padding: 20px 18px 24px;
+        border-radius: 16px;
+    }
+
+    .panel h2 {
+        font-size: 15px;
+        gap: 10px;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+    }
+
+    .panel h2 i {
+        font-size: 15px;
+        width: 20px;
+    }
+
+    textarea {
+        min-height: 160px;
+        font-size: 13px;
+        padding: 12px 14px;
+    }
+
+    .file-input-wrapper {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .file-input-wrapper .fake-btn {
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .file-input-wrapper .file-name {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .btn-gold {
+        font-size: 14px;
+        padding: 15px 20px;
+        margin-top: 14px;
+        gap: 8px;
+    }
+
+    .btn-outline-gold {
+        font-size: 13px;
+        padding: 12px 18px;
+        gap: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-group .btn-outline-gold {
+        min-width: 100%;
+    }
+
+    .cv-preview {
+        padding: 24px 18px;
+        font-size: 10pt;
+        border-radius: 12px;
+        min-height: 400px;
+    }
+
+    .cv-preview h1 {
+        font-size: 18pt;
+    }
+
+    .cv-preview .section {
+        font-size: 10pt;
+        margin-top: 14px;
+    }
+
+    .cv-preview .job-title {
+        font-size: 10pt;
+    }
+
+    .cv-preview .bullet {
+        padding-left: 16px;
+        font-size: 9.5pt;
+    }
+
+    .cv-preview .keywords {
+        padding: 12px 14px;
+    }
+
+    .cv-preview .keywords .badge {
+        font-size: 8pt;
+        padding: 3px 10px;
+    }
+
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        font-size: 12px;
+        padding: 22px 18px 28px;
+    }
+
+    .toast {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+        padding: 14px 20px;
+        font-size: 13px;
+        border-radius: 40px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header {
+        padding: 18px 14px 16px;
+    }
+
+    .grid {
+        padding: 16px 14px;
+    }
+
+    .panel {
+        padding: 16px 14px 20px;
+    }
+
+    .cv-preview {
+        padding: 18px 14px;
+    }
+
+    .footer {
+        padding: 18px 14px 24px;
+    }
+}
+        
     </style>
 </head>
 <body>
 
     <!-- ==========================================
-    TOAST NOTIFICACIÓN
+    TOAST NOTIFICACIÓN (icono Font Awesome)
     ========================================== -->
-    <div id="toast" class="toast">✅ ¡CV generado con éxito!</div>
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">¡CV generado con éxito!</span>
+    </div>
 
     <!-- ==========================================
     APLICACIÓN
     ========================================== -->
-    <div class="app">
 
         <!-- HEADER -->
         <header class="header">
             <h1>
-                🎯 Generador CV
+                <i class="fas fa-file-alt"></i>
+                Generador CV
                 <small>· adapta ofertas al instante</small>
             </h1>
             <div class="header-controls">
                 <label>
+                    <i class="fas fa-font"></i>
                     Tipografía
                     <select id="fontSelector">
+                        <option value="Roboto" selected>Roboto</option>
                         <option value="Calibri">Calibri</option>
                         <option value="Arial">Arial</option>
-                        <option value="Roboto" selected>Roboto</option>
+                        <option value="Playfair Display">Playfair Display</option>
                     </select>
                 </label>
+                <label>
+    <i class="fas fa-globe"></i>
+    Idioma del CV
+    <select id="langSelector">
+        <option value="es" selected>Español</option>
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+    </select>
+</label>
             </div>
         </header>
 
@@ -520,18 +852,36 @@
             ========================================== -->
             <div class="panel panel-scroll">
 
-                <h2><span>📂</span> 1. Carga tu CV maestro</h2>
+                <h2>
+                    <i class="fas fa-folder-open"></i>
+                    1. Carga tu CV maestro
+                </h2>
 
                 <div class="file-input-wrapper" id="fileWrapper">
-                    <span class="fake-btn" onclick="document.getElementById('fileInput').click()">📤 Elegir archivo</span>
-                    <span class="file-name" id="fileName">Ningún archivo seleccionado</span>
-                    <input type="file" id="fileInput" accept=".txt" />
-                </div>
-                <div id="fileStatus" class="file-status">⏳ Esperando archivo...</div>
+    <span class="fake-btn" onclick="document.getElementById('fileInput').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        Elegir archivo
+    </span>
+    <span class="file-name" id="fileName">Ningún archivo seleccionado</span>
+    <input type="file" id="fileInput" accept=".txt" />
+</div>
+<div id="fileStatus" class="file-status">
+    <i class="fas fa-hourglass-half"></i>
+    Esperando archivo...
+</div>
 
-                <hr style="border: none; border-top: 1px solid #3a342e; margin: 20px 0;" />
+<!-- 👇 NUEVO: Botón para descargar plantilla JSON -->
+<button class="btn-ghost-gold" onclick="descargarPlantillaJSON()">
+    <i class="fas fa-download"></i>
+    Descargar plantilla .txt (JSON)
+</button>
 
-                <h2><span>📋</span> 2. Pega la oferta de trabajo</h2>
+                <hr class="divider" />
+
+                <h2>
+                    <i class="fas fa-clipboard-list"></i>
+                    2. Pega la oferta de trabajo
+                </h2>
 
                 <textarea id="ofertaInput" placeholder="Pega aquí el texto completo de la oferta de trabajo...">Acerca del empleo
 ¡Únete a Sigma! Creemos en cuidar verdaderamente a nuestros colaboradores para asegurar que se sientan capacitados para ser su mejor versión en el trabajo. Este es el comienzo de una carrera con una compañía innovadora de rápido crecimiento.
@@ -588,36 +938,56 @@ Posición regional con alcance LATAM.
 Ubicación: Monterrey, Nuevo León.</textarea>
 
                 <button class="btn-gold" onclick="generarCV()">
-                    ✨ GENERAR CV ADAPTADO
+                    <i class="fas fa-magic"></i>
+                    Generar CV Adaptado
                 </button>
 
-                <div class="btn-group">
-                    <button class="btn-outline-gold" onclick="descargarWord()">
-                        📥 Descargar .docx
-                    </button>
-                    <button class="btn-outline-gold" onclick="copiarTexto()">
-                        📋 Copiar texto
-                    </button>
-                </div>
+            <div class="btn-group">
+    <button class="btn-outline-gold" onclick="descargarWord()">
+        <i class="fas fa-file-word"></i>
+        Descargar .docx
+    </button>
+    <button class="btn-outline-gold" onclick="descargarPDF()">
+        <i class="fas fa-file-pdf"></i>
+        Descargar .PDF
+    </button>
+    <button class="btn-outline-gold" onclick="copiarTexto()">
+        <i class="fas fa-copy"></i>
+        Copiar texto
+    </button>
+</div>
 
-                <div id="statusMsg" style="margin-top:16px; color:#d4af37; font-weight:500; text-align:center;"></div>
+                <div id="statusMsg" style="margin-top:16px; color:var(--gold); font-weight:400; text-align:center; font-size:13px; letter-spacing:0.02em;"></div>
             </div>
 
             <!-- ==========================================
             PANEL DERECHO — VISTA PREVIA
             ========================================== -->
             <div class="panel panel-scroll">
-                <h2><span>👁️</span> Vista previa del CV</h2>
+                <h2>
+                    <i class="fas fa-eye"></i>
+                    Vista previa del CV
+                </h2>
                 <div id="cvPreview" class="cv-preview">
                     <div class="empty-state">
-                        <div class="icon">📄</div>
+                        <i class="fas fa-file-alt"></i>
                         <p>Carga tu CV maestro y pega una oferta</p>
-                        <p style="font-size:12px; color:#aaa;">Luego haz clic en "Generar CV Adaptado"</p>
+                        <p style="font-size:12px; color:#a8a29e; margin-top:6px;">Luego haz clic en "Generar CV Adaptado"</p>
                     </div>
                 </div>
             </div>
 
         </div><!-- /grid -->
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <span>Diseñado por Michito Diseñador 2026</span>
+            <a href="https://michitodisenador.github.io/michito_disenador_portafolio/index.html" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt"></i>
+                michitodisenador.github.io
+            </a>
+        </footer>
+
     </div><!-- /app -->
 
     <!-- ==========================================
@@ -627,7 +997,7 @@ Ubicación: Monterrey, Nuevo León.</textarea>
         // ==========================================
         // ESTADO GLOBAL
         // ==========================================
-        let cvMaestro = null; // objeto con todos los datos
+        let cvMaestro = null;
         let cvHTMLActual = '';
         let cvTextoActual = '';
 
@@ -641,83 +1011,269 @@ Ubicación: Monterrey, Nuevo León.</textarea>
         const cvPreview = document.getElementById('cvPreview');
         const fontSelector = document.getElementById('fontSelector');
         const toast = document.getElementById('toast');
-        const statusMsg = document.getElementById('statusMsg');
+        const toastMsg = document.getElementById('toastMsg');
+        const statusMsg = document.getElementById('statusMsg');       
+      // ==========================================
+// DICCIONARIO DE TÍTULOS DE SECCIÓN
+// ==========================================
+const SECCIONES_TRADUCIDAS = {
+    es: {
+        contacto: "CONTACTO",
+        habilidades: "HABILIDADES",
+        experiencia: "EXPERIENCIA PROFESIONAL",
+        colaboraciones: "COLABORACIONES",
+        educacion: "EDUCACIÓN",
+        cursos: "CURSOS",
+        idiomas: "IDIOMAS"
+    },
+    en: {
+        contacto: "CONTACT",
+        habilidades: "SKILLS",
+        experiencia: "PROFESSIONAL EXPERIENCE",
+        colaboraciones: "COLLABORATIONS",
+        educacion: "EDUCATION",
+        cursos: "COURSES",
+        idiomas: "LANGUAGES"
+    },
+    pt: {
+        contacto: "CONTATO",
+        habilidades: "HABILIDADES",
+        experiencia: "EXPERIÊNCIA PROFISSIONAL",
+        colaboraciones: "COLABORAÇÕES",
+        educacion: "EDUCAÇÃO",
+        cursos: "CURSOS",
+        idiomas: "IDIOMAS"
+    },
+    fr: {
+        contacto: "CONTACT",
+        habilidades: "COMPÉTENCES",
+        experiencia: "EXPÉRIENCE PROFESSIONNELLE",
+        colaboraciones: "COLLABORATIONS",
+        educacion: "FORMATION",
+        cursos: "COURS",
+        idiomas: "LANGUES"
+    },
+    de: {
+        contacto: "KONTAKT",
+        habilidades: "FÄHIGKEITEN",
+        experiencia: "BERUFSERFAHRUNG",
+        colaboraciones: "ZUSAMMENARBEIT",
+        educacion: "AUSBILDUNG",
+        cursos: "KURSE",
+        idiomas: "SPRACHEN"
+    },
+    it: {
+        contacto: "CONTATTO",
+        habilidades: "COMPETENZE",
+        experiencia: "ESPERIENZA PROFESSIONALE",
+        colaboraciones: "COLLABORAZIONI",
+        educacion: "FORMAZIONE",
+        cursos: "CORSI",
+        idiomas: "LINGUE"
+    }
+};  
 
-        // ==========================================
-        // CV MAESTRO POR DEFECTO (si no se carga archivo)
-        // ==========================================
-        const CV_POR_DEFECTO = {
-            nombre: "PAOLA HERRERA SOL",
-            subtitulo: "Diseñadora Gráfica Digital | Especialista en Análisis de Datos y Consumer Insights",
-            contacto: "Tapachula, Chiapas, México | +52 961 920 0890 | sapichaan@gmail.com | linkedin.com/in/michito-disenador",
-            perfil: "Profesional con sólida experiencia en el análisis visual de datos de consumidor y la optimización de contenido basada en métricas de desempeño. Especialista en la interpretación de briefs, consolidación de información de múltiples fuentes y generación de reportes ejecutivos que facilitan la toma de decisiones. Manejo avanzado de herramientas de análisis de datos (Excel, tablas dinámicas, Power Query, Power BI) y plataformas de visualización. Inglés B2 con comprensión técnica avanzada para interpretar estudios de mercado y colaborar con equipos regionales. Experiencia comprobada en la gestión de proyectos multidisciplinarios y trabajo con equipos de marketing.",
-            experiencia: [{
-                puesto: "Diseñadora Gráfica Digital y Analista de Marketing",
-                empresa: "Astros Marketing",
-                fechas: "2020 – Presente",
-                ubicacion: "México",
-                logros: [
-                    "Procesé y consolidé información de desempeño de campañas digitales (Meta Ads, TikTok Ads), identificando patrones de comportamiento y oportunidades de optimización que incrementaron el ROI en un 25%.",
-                    "Administré y analicé bases de datos de métricas de engagement y conversión para más de 50 campañas, generando dashboards en Excel y Power BI para la toma de decisiones estratégicas.",
-                    "Interpreté briefs de múltiples marcas para desarrollar líneas gráficas y estrategias visuales, alineando la comunicación con los insights de consumidor obtenidos de estudios de mercado.",
-                    "Colaboré con equipos de marketing para traducir datos de consumidor en estrategias efectivas, mejorando la coherencia visual y el cumplimiento de objetivos comerciales.",
-                    "Gestioné proyectos de principio a fin, coordinando con stakeholders internos y externos para asegurar la calidad y oportunidad de la información."
-                ]
-            }, {
-                puesto: "Consultora de Branding y Análisis de Mercado",
-                empresa: "Freelance — Michito Diseñador",
-                fechas: "2018 – Presente",
-                ubicacion: "México",
-                logros: [
-                    "Desarrollé proyectos de branding e identidad visual para +20 emprendedores y pequeñas empresas, realizando análisis de mercado y posicionamiento competitivo.",
-                    "Procesé información de estudios de nivel de agrado y pruebas de concepto, generando reportes ejecutivos con hallazgos y recomendaciones estratégicas.",
-                    "Diseñé dashboards y sistemas de seguimiento para medir la efectividad de campañas de marketing digital y optimizar el rendimiento.",
-                    "Integré reportes de innovación y tendencias de mercado de distintos sectores comerciales, identificando áreas de oportunidad."
-                ]
-            }],
-            educacion: {
-                carrera: "Licenciatura en Diseño Gráfico",
-                universidad: "Universidad Interamericana para el Desarrollo (UNID)",
-                ubicacion: "Campus Tapachula, Chiapas, México",
-                año: "Certificado, 2015"
-            },
-            habilidades: {
-                analisis_datos: [
-                    "Manejo avanzado de Excel (tablas dinámicas, Power Query, cruces de información, análisis estadístico)",
-                    "Construcción de dashboards y reportes ejecutivos en Power BI y Tableau",
-                    "Procesamiento y consolidación de grandes volúmenes de datos de estudios de mercado",
-                    "Interpretación de estudios cuantitativos y encuestas de consumidores",
-                    "Identificación de hallazgos y áreas de oportunidad para mejora de productos"
-                ],
-                herramientas: [
-                    "Adobe Creative Cloud (Photoshop, Illustrator, InDesign, Premiere Pro, After Effects)",
-                    "Figma, Canva Pro, CapCut para diseño de contenido y recursos visuales",
-                    "HTML, CSS, JavaScript, GitHub para análisis web y automatización",
-                    "Microsoft Office 365, Teams, VS Code",
-                    "Gestión de proyectos y coordinación con equipos de marketing y stakeholders regionales"
-                ]
-            },
-            idiomas: [
-                "Español — Nativo (México)",
-                "Inglés — B2 (capacidad para interpretar estudios, elaborar reportes y colaborar con equipos regionales)"
-            ],
-            cursos: [
-                "Power BI para Análisis de Datos — En curso, 2025",
-                "Excel Avanzado para Business Intelligence — En curso, 2025",
-                "Estrategias de Diseño para Instagram y Facebook Ads — Crehana, 2025",
-                "Meta Ads y Estrategias de Publicidad para Redes Sociales — Crehana, 2024",
-                "Diseño de Contenido Visual para Redes Sociales — Domestika, 2025",
-                "Branding y Diseño de Identidad para Redes Sociales — Coursera, 2023"
-            ],
-            logros: [
-                "Optimización de campañas digitales: Incremento del 25% en ROI mediante análisis de datos de consumidor.",
-                "Gestión exitosa de +50 proyectos simultáneos con equipos multidisciplinarios.",
-                "Desarrollo de sistemas de visualización de datos que redujeron el tiempo de reporting en un 40%.",
-                "Interpretación de briefs para más de 30 marcas de diferentes sectores comerciales."
-            ]
-        };
+// ==========================================
+// TRADUCIR TEXTO CON GOOGLE TRANSLATE (sin API key)
+// ==========================================
+async function traducirTexto(texto, idiomaDestino) {
+    if (!texto || !texto.trim()) return texto;
+    if (idiomaDestino === 'es') return texto; // español es el original
 
+    try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=${idiomaDestino}&dt=t&q=${encodeURIComponent(texto)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Error de red');
+        const data = await res.json();
+        // data[0] es un array de fragmentos traducidos
+        return data[0].map(fragment => fragment[0]).join('');
+    } catch (err) {
+        console.error('Error al traducir:', err);
+        return texto; // fallback: devuelve el original
+    }
+}
+
+// ==========================================
+// TRADUCIR EL OBJETO CV COMPLETO
+// ==========================================
+async function traducirCV(cv, idioma) {
+    if (idioma === 'es') return cv;
+
+    const cvTrad = JSON.parse(JSON.stringify(cv)); // copia profunda
+
+    // Traducir campos simples
+    cvTrad.nombre = cv.nombre; // los nombres propios NO se traducen
+    cvTrad.subtitulo = await traducirTexto(cv.subtitulo, idioma);
+    cvTrad.contacto = cv.contacto; // emails, teléfonos, URLs no se traducen
+
+    // Habilidades
+    cvTrad.habilidades = await Promise.all(cv.habilidades.map(async cat => ({
+        categoria: await traducirTexto(cat.categoria, idioma),
+        descripcion: await traducirTexto(cat.descripcion, idioma)
+    })));
+
+    // Experiencia
+    cvTrad.experiencia = await Promise.all(cv.experiencia.map(async exp => ({
+        empresa: exp.empresa, // nombres de empresa NO se traducen
+        ubicacion: await traducirTexto(exp.ubicacion, idioma),
+        fechas: exp.fechas, // fechas no se traducen
+        puesto: await traducirTexto(exp.puesto, idioma),
+        descripcion: await traducirTexto(exp.descripcion, idioma)
+    })));
+
+    // Colaboraciones
+    if (cv.colaboraciones) {
+        cvTrad.colaboraciones = await Promise.all(cv.colaboraciones.map(async col => ({
+            proyecto: col.proyecto, // nombres propios
+            detalle: await traducirTexto(col.detalle, idioma)
+        })));
+    }
+
+    // Educación
+    cvTrad.educacion = {
+        carrera: await traducirTexto(cv.educacion.carrera, idioma),
+        universidad: cv.educacion.universidad, // nombre propio
+        ubicacion: await traducirTexto(cv.educacion.ubicacion, idioma),
+        año: await traducirTexto(cv.educacion.año, idioma)
+    };
+
+    // Cursos
+    cvTrad.cursos = await Promise.all(
+        cv.cursos.map(c => traducirTexto(c, idioma))
+    );
+
+    // Idiomas
+    cvTrad.idiomas = await Promise.all(
+        cv.idiomas.map(i => traducirTexto(i, idioma))
+    );
+
+    return cvTrad;
+}
+
+// ==========================================
+// CONSTRUIR HTML DEL CV A PARTIR DEL OBJETO
+// ==========================================
+function construirCVHTML(cv, idioma = 'es') {
+    const t = SECCIONES_TRADUCIDAS[idioma] || SECCIONES_TRADUCIDAS.es;
+
+    let html = `
+        <h1>${cv.nombre}</h1>
+        <div class="subtitle">${cv.subtitulo}</div>
+
+        <div class="contact-block">
+            <div class="section">${t.contacto}</div>
+            <p>${cv.contacto}</p>
+        </div>
+
+        <div class="section">${t.habilidades}</div>
+    `;
+
+    cv.habilidades.forEach(cat => {
+        html += `
+            <div class="skill-category">
+                <span class="label">${cat.categoria}</span>
+                <p>${cat.descripcion}</p>
+            </div>
+        `;
+    });
+
+    html += `<div class="section">${t.experiencia}</div>`;
+
+    cv.experiencia.forEach(exp => {
+        html += `
+            <div class="job-header">${exp.empresa} | ${exp.ubicacion} | ${exp.fechas}</div>
+            <div class="job-position">${exp.puesto}</div>
+            <p class="job-description">${exp.descripcion}</p>
+        `;
+    });
+
+    if (cv.colaboraciones && cv.colaboraciones.length > 0) {
+        html += `<div class="section">${t.colaboraciones}</div><ul class="collab-list">`;
+        cv.colaboraciones.forEach(c => {
+            html += `<li><strong>${c.proyecto}</strong> – ${c.detalle}</li>`;
+        });
+        html += `</ul>`;
+    }
+
+    html += `
+        <div class="section">${t.educacion}</div>
+        <div class="info-line"><strong>${cv.educacion.universidad}</strong></div>
+        <div class="info-line">${cv.educacion.ubicacion}</div>
+        <div class="info-line">${cv.educacion.año}</div>
+
+        <div class="section">${t.cursos}</div>
+    `;
+
+    cv.cursos.forEach(curso => {
+        html += `<div class="info-line">${curso}</div>`;
+    });
+
+    html += `<div class="section">${t.idiomas}</div>`;
+    cv.idiomas.forEach(idioma => {
+        html += `<div class="info-line">${idioma}</div>`;
+    });
+
+    return html;
+}
         // ==========================================
+        // CV MAESTRO POR DEFECTO
+        // ==========================================
+      const CV_POR_DEFECTO = {
+    nombre: "PAOLA HERRERA SOL",
+    subtitulo: "Diseñadora Gráfica Digital y Marketing Visual",
+    contacto: "Tapachula, Chiapas, México | sapichaan@gmail.com | Cel: +52 961 920 0890 | Portfolio: github.com/MichitoDisenador | LinkedIn: michito-disenador",
+    habilidades: [
+        {
+            categoria: "Branding y Diseño:",
+            descripcion: "Identidad visual, sistemas gráficos, diseño publicitario, diseño editorial, diseño de campañas publicitarias para Meta Ads, TikTok Ads, entre otros, lineamientos de marca, adaptación a formatos, edición de fotografía, edición de video básico, diseño de interfaz para experiencia de usuario, ilustración digital, diseño de manuales de identidad, diseño enfocado al B2B, campañas de publicidad enfocadas en CTR, Diseño de Newsletter."
+        },
+        {
+            categoria: "Herramientas:",
+            descripcion: "Adobe Creative Cloud (Photoshop, Illustrator, InDesign, Lightroom, After Effects, Premiere Pro básico), Figma, Canva Pro, CapCut, HTML/CSS/JS, GitHub, Mailchimp, Microsoft Office, Teams, VS Code."
+        }
+    ],
+    experiencia: [
+        {
+            empresa: "ASTROS MARKETING",
+            ubicacion: "México",
+            fechas: "2020 – Presente",
+            puesto: "Diseñadora Gráfica Digital y Social Media Designer",
+            descripcion: "Diseño y producción de contenido visual para redes sociales, incluyendo carruseles, anuncios, reels, banners y materiales promocionales. Desarrollo de líneas gráficas e identidades visuales para distintas marcas y campañas digitales. Creación de recursos gráficos optimizados para campañas de Meta Ads y TikTok Ads. Diseño de materiales de marketing digital orientados a fortalecer el posicionamiento de marca y la interacción con audiencias. Edición fotográfica, retoque de imágenes y adaptación de recursos visuales para diversos formatos digitales. Colaboración con equipos de marketing para asegurar coherencia visual y cumplimiento de objetivos comerciales."
+        },
+        {
+            empresa: "FREELANCE",
+            ubicacion: "México",
+            fechas: "2018 – Presente",
+            puesto: "Diseñadora Gráfica y Branding",
+            descripcion: "Desarrollo de proyectos de branding e identidad visual para emprendedores y pequeñas empresas. Diseño de contenido para redes sociales, publicidad digital y materiales promocionales. Creación de logotipos, manuales básicos de identidad, plantillas y sistemas gráficos para marcas emergentes. Producción de flyers, banners, portadas, material publicitario y contenido audiovisual corto. Gestión integral de proyectos, desde la atención al cliente hasta la entrega final de materiales. Adaptación de propuestas visuales a diferentes sectores comerciales y necesidades de comunicación."
+        }
+    ],
+    colaboraciones: [
+        { proyecto: "UTAC", detalle: "6ta Milla Universitaria 2026" },
+        { proyecto: "UNIMAT", detalle: "Publicidad de Licenciaturas" },
+        { proyecto: "MXSIG", detalle: "Auxiliar en diseño UI/UX" },
+        { proyecto: "AJ Digital Art", detalle: "Operación de cámara, edición de fotografía y página web." },
+        { proyecto: "SEFOTUR", detalle: "Adaptación de formatos en la Semana de Yucatán en México 2014" }
+    ],
+    educacion: {
+        carrera: "Licenciatura en Diseño Gráfico",
+        universidad: "Universidad Interamericana para el Desarrollo UNID",
+        ubicacion: "Tapachula Campus, México",
+        año: "Carrera terminada – Certificado 2015."
+    },
+    cursos: [
+        "Domestika 2025 - Diseño de Contenido Visual para Redes Sociales",
+        "Coursera 2023 - Branding y Diseño de Identidad para Redes Sociales",
+        "Crehana 2025 - Estrategias de Diseño para Instagram y Facebook Ads",
+        "Crehana 2024 - Meta Ads y Estrategias de Publicidad para Redes Sociales"
+    ],
+    idiomas: [
+        "Español (México): Nativo",
+        "Inglés: B2 (lectura y comprensión técnica avanzada)"
+    ]
+};  
+
+  // ==========================================
         // CARGAR CV MAESTRO DESDE ARCHIVO .TXT
         // ==========================================
         fileInput.addEventListener('change', function(e) {
@@ -728,19 +1284,17 @@ Ubicación: Monterrey, Nuevo León.</textarea>
             reader.onload = function(ev) {
                 try {
                     const contenido = ev.target.result;
-                    // El archivo debe ser JSON con la estructura del CV
                     const datos = JSON.parse(contenido);
                     cvMaestro = datos;
                     fileName.textContent = file.name;
-                    fileStatus.innerHTML = '✅ CV maestro cargado correctamente';
+                    fileStatus.innerHTML = '<i class="fas fa-check-circle" style="color:var(--gold);"></i> CV maestro cargado correctamente';
                     fileStatus.style.color = '#d4af37';
-                    mostrarToast('✅ CV maestro cargado desde ' + file.name);
-                    // Generar automáticamente con la oferta actual
+                    mostrarToast('CV maestro cargado desde ' + file.name);
                     setTimeout(generarCV, 300);
                 } catch (err) {
-                    fileStatus.innerHTML = '❌ Error: el archivo no tiene formato JSON válido';
+                    fileStatus.innerHTML = '<i class="fas fa-times-circle" style="color:#e74c3c;"></i> Error: el archivo no tiene formato JSON válido';
                     fileStatus.style.color = '#e74c3c';
-                    mostrarToast('❌ Error al leer el archivo');
+                    mostrarToast('Error al leer el archivo');
                     console.error(err);
                 }
             };
@@ -811,190 +1365,133 @@ Ubicación: Monterrey, Nuevo León.</textarea>
         // ==========================================
         // GENERAR CV
         // ==========================================
-        function generarCV() {
-            const oferta = ofertaInput.value;
-            if (!oferta.trim()) {
-                statusMsg.textContent = '⚠️ Por favor, pega una oferta de trabajo.';
-                return;
-            }
+    function generarCV() {
+    const oferta = ofertaInput.value;
+    if (!oferta.trim()) {
+    let cvIdiomaActual = 'es';    
+        statusMsg.textContent = 'Por favor, pega una oferta de trabajo.';
+        statusMsg.style.color = '#e74c3c';
+        return;
+    }
+    statusMsg.style.color = 'var(--gold)';
 
-            // Usar CV maestro o el por defecto
-            const cv = cvMaestro || CV_POR_DEFECTO;
+    const cv = cvMaestro || CV_POR_DEFECTO;
+    const idioma = document.getElementById('langSelector').value;
 
-            const keywords = extraerKeywords(oferta);
-            const perfilAdaptado = adaptarPerfil(cv.perfil, keywords);
+    const html = construirCVHTML(cv, idioma);
 
-            // Construir HTML
-            let html = `
-                <h1>${cv.nombre}</h1>
-                <div class="subtitle">${cv.subtitulo}</div>
-                <div class="contact">${cv.contacto}</div>
+    cvPreview.innerHTML = html;
+    cvHTMLActual = html;
+    cvTextoActual = generarTextoPlano(cv);
+    cvIdiomaActual = idioma;
 
-                <div class="section">Perfil Profesional</div>
-                <p>${perfilAdaptado}</p>
+    statusMsg.textContent = 'CV generado con éxito';
+    mostrarToast('CV adaptado generado correctamente');
 
-                <div class="section">Experiencia Profesional</div>
-            `;
-
-            cv.experiencia.forEach(exp => {
-                html += `
-                    <div class="job-title">${exp.puesto}</div>
-                    <div class="job-company">${exp.empresa} | ${exp.fechas} | ${exp.ubicacion}</div>
-                `;
-                exp.logros.forEach(logro => {
-                    html += `<div class="bullet">${logro}</div>`;
-                });
-            });
-
-            html += `
-                <div class="section">Formación Académica</div>
-                <div class="job-title">${cv.educacion.carrera}</div>
-                <div class="job-company">${cv.educacion.universidad}</div>
-                <div class="job-company">${cv.educacion.ubicacion} | ${cv.educacion.año}</div>
-                <div style="margin-top:4px;"><strong>Especialización en Análisis de Datos y Consumer Insights</strong></div>
-                <div class="job-company">En curso | Certificación Internacional</div>
-
-                <div class="section">Habilidades Técnicas</div>
-                <div><strong>Análisis de Datos e Investigación:</strong></div>
-            `;
-
-            cv.habilidades.analisis_datos.forEach(h => {
-                html += `<div class="bullet">${h}</div>`;
-            });
-
-            html += `
-                <div style="margin-top:8px;"><strong>Herramientas Digitales:</strong></div>
-            `;
-
-            cv.habilidades.herramientas.forEach(h => {
-                html += `<div class="bullet">${h}</div>`;
-            });
-
-            html += `
-                <div class="section">Idiomas</div>
-            `;
-
-            cv.idiomas.forEach(idioma => {
-                html += `<div>${idioma}</div>`;
-            });
-
-            html += `
-                <div class="section">Cursos y Certificaciones</div>
-            `;
-
-            cv.cursos.forEach(curso => {
-                html += `<div class="bullet">${curso}</div>`;
-            });
-
-            html += `
-                <div class="section">Logros Destacados</div>
-            `;
-
-            cv.logros.forEach(logro => {
-                html += `<div class="bullet">${logro}</div>`;
-            });
-
-            if (keywords.length > 0) {
-                html += `
-                    <div class="keywords">
-                        <strong>🔑 Keywords identificadas:</strong><br>
-                        ${keywords.map(k => `<span class="badge">${k}</span>`).join(' ')}
-                    </div>
-                `;
-            }
-
-            cvPreview.innerHTML = html;
-            cvHTMLActual = html;
-            cvTextoActual = generarTextoPlano(cv, perfilAdaptado);
-
-            statusMsg.textContent = '✅ CV generado con éxito';
-            mostrarToast('✅ CV adaptado generado correctamente');
-
-            // Aplicar tipografía seleccionada
-            cvPreview.style.fontFamily = fontSelector.value + ', sans-serif';
-        }
+    cvPreview.style.fontFamily = fontSelector.value + ', sans-serif';
+}
 
         // ==========================================
-        // GENERAR TEXTO PLANO (para Word)
+        // GENERAR TEXTO PLANO
         // ==========================================
-        function generarTextoPlano(cv, perfilAdaptado) {
-            let t = `${cv.nombre}\n${cv.subtitulo}\n${cv.contacto}\n\nPERFIL PROFESIONAL\n${perfilAdaptado}\n\nEXPERIENCIA PROFESIONAL\n`;
-            cv.experiencia.forEach(exp => {
-                t += `\n${exp.puesto}\n${exp.empresa} | ${exp.fechas} | ${exp.ubicacion}\n`;
-                exp.logros.forEach(l => { t += `• ${l}\n`; });
-            });
-            t += `\nFORMACIÓN ACADÉMICA\n${cv.educacion.carrera}\n${cv.educacion.universidad}\n${cv.educacion.ubicacion} | ${cv.educacion.año}\nEspecialización en Análisis de Datos y Consumer Insights\nEn curso | Certificación Internacional\n\nHABILIDADES TÉCNICAS\nAnálisis de Datos e Investigación:\n`;
-            cv.habilidades.analisis_datos.forEach(h => { t += `• ${h}\n`; });
-            t += `\nHerramientas Digitales:\n`;
-            cv.habilidades.herramientas.forEach(h => { t += `• ${h}\n`; });
-            t += `\nIDIOMAS\n`;
-            cv.idiomas.forEach(i => { t += `${i}\n`; });
-            t += `\nCURSOS Y CERTIFICACIONES\n`;
-            cv.cursos.forEach(c => { t += `• ${c}\n`; });
-            t += `\nLOGROS DESTACADOS\n`;
-            cv.logros.forEach(l => { t += `• ${l}\n`; });
-            return t;
-        }
+        function generarTextoPlano(cv) {
+    let t = `${cv.nombre}\n${cv.subtitulo}\n\nCONTACTO\n${cv.contacto}\n\nHABILIDADES\n`;
+    cv.habilidades.forEach(cat => {
+        t += `\n${cat.categoria}\n${cat.descripcion}\n`;
+    });
+    t += `\nEXPERIENCIA PROFESIONAL\n`;
+    cv.experiencia.forEach(exp => {
+        t += `\n${exp.empresa} | ${exp.ubicacion} | ${exp.fechas}\n${exp.puesto}\n${exp.descripcion}\n`;
+    });
+    if (cv.colaboraciones && cv.colaboraciones.length > 0) {
+        t += `\nCOLABORACIONES\n`;
+        cv.colaboraciones.forEach(c => {
+            t += `${c.proyecto} – ${c.detalle}\n`;
+        });
+    }
+    t += `\nEDUCACIÓN\n${cv.educacion.universidad}\n${cv.educacion.ubicacion}\n${cv.educacion.año}\n`;
+    t += `\nCURSOS\n`;
+    cv.cursos.forEach(c => { t += `${c}\n`; });
+    t += `\nIDIOMAS\n`;
+    cv.idiomas.forEach(i => { t += `${i}\n`; });
+    return t;
+}
 
         // ==========================================
         // DESCARGAR WORD
         // ==========================================
-        function descargarWord() {
-            if (!cvHTMLActual) {
-                mostrarToast('⚠️ Primero genera el CV');
-                return;
-            }
-            const wordHTML = `
-        <!DOCTYPE html>
-        <html>
-        <head><meta charset="UTF-8">
-        <style>
-          body { font-family: '${fontSelector.value}', sans-serif; font-size: 11pt; line-height:1.6; padding:40px; max-width:800px; margin:auto; }
-          h1 { text-align:center; font-size:22pt; color:#003366; }
-          .subtitle { text-align:center; font-size:10pt; color:#4a4a4a; font-style:italic; }
-          .contact { text-align:center; font-size:9pt; color:#4a4a4a; border-bottom:1px solid #ccc; padding-bottom:16px; }
-          .section { font-size:11pt; font-weight:bold; color:#003366; text-transform:uppercase; border-bottom:2px solid #003366; padding-bottom:3px; margin-top:16px; }
-          .job-title { font-weight:bold; margin-top:10px; }
-          .job-company { font-style:italic; font-size:10pt; color:#4a4a4a; }
-          .bullet { padding-left:20px; }
-          .bullet::before { content:"• "; }
-          .keywords { margin-top:16px; padding:12px 16px; background:#f5f0e8; border-radius:10px; border-left:4px solid #d4af37; }
-          .badge { display:inline-block; background:#d4af37; color:#0b0a0a; padding:2px 12px; border-radius:30px; font-size:9pt; font-weight:600; margin:3px 4px 3px 0; }
-        </style>
-        </head>
-        <body>${cvHTMLActual}</body>
-        </html>`;
+        async function descargarWord() {
+    if (!cvHTMLActual) {
+        mostrarToast('Primero genera el CV');
+        return;
+    }
+    const idioma = document.getElementById('langSelector').value;
+    const cv = cvMaestro || CV_POR_DEFECTO;
 
-            const blob = new Blob([wordHTML], { type: 'application/msword' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'CV_Paola_Herrera_Sol_Adaptado.docx';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-            mostrarToast('📥 CV descargado como Word');
-        }
+    let cvTraducido = cv;
+    if (idioma !== 'es') {
+        statusMsg.textContent = 'Traduciendo…';
+        cvTraducido = await traducirCV(cv, idioma);
+    }
 
+    const html = construirCVHTML(cvTraducido, idioma);
+
+    // ... resto igual: armar el wordHTML con `html` en lugar de cvHTMLActual
+}
+
+    const wordHTML = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8">
+    <style>
+      body { font-family: '${fontSelector.value}', Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.55; padding: 48px 52px; max-width: 800px; margin: auto; color: #1a1a1a; }
+      h1 { text-align: center; font-family: 'Playfair Display', 'Times New Roman', serif; font-size: 24pt; color: #000; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 6px; }
+      .subtitle { text-align: center; font-size: 11pt; color: #333; font-style: italic; margin-bottom: 22px; }
+      .section { font-family: 'Playfair Display', 'Times New Roman', serif; font-size: 13pt; font-weight: bold; color: #000; text-transform: uppercase; text-align: center; letter-spacing: 0.05em; margin-top: 26px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #000; }
+      .contact-block p { text-align: center; font-size: 10pt; color: #333; }
+      .skill-category { margin-bottom: 10px; }
+      .skill-category .label { font-weight: bold; color: #000; display: block; margin-bottom: 2px; }
+      .skill-category p { margin: 0; }
+      .job-header { font-weight: bold; color: #000; margin-top: 14px; margin-bottom: 2px; text-transform: uppercase; }
+      .job-position { font-weight: normal; margin-bottom: 6px; }
+      .job-description { text-align: justify; margin: 0; }
+      .collab-list { list-style: none; padding: 0; }
+      .collab-list li { margin-bottom: 4px; }
+      .info-line { margin-bottom: 3px; }
+      .info-line strong { font-weight: bold; color: #000; }
+    </style>
+    </head>
+    <body>${cvHTMLActual}</body>
+    </html>`;
+
+    const blob = new Blob([wordHTML], { type: 'application/msword' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'CV_Paola_Herrera_Sol.docx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    mostrarToast('CV descargado como Word');
+}
         // ==========================================
         // COPIAR TEXTO
         // ==========================================
         function copiarTexto() {
             if (!cvTextoActual) {
-                mostrarToast('⚠️ Primero genera el CV');
+                mostrarToast('Primero genera el CV');
                 return;
             }
             navigator.clipboard.writeText(cvTextoActual).then(() => {
-                mostrarToast('📋 Texto copiado al portapapeles');
+                mostrarToast('Texto copiado al portapapeles');
             }).catch(() => {
-                // fallback
                 const ta = document.createElement('textarea');
                 ta.value = cvTextoActual;
                 document.body.appendChild(ta);
                 ta.select();
                 document.execCommand('copy');
                 document.body.removeChild(ta);
-                mostrarToast('📋 Texto copiado al portapapeles');
+                mostrarToast('Texto copiado al portapapeles');
             });
         }
 
@@ -1002,25 +1499,174 @@ Ubicación: Monterrey, Nuevo León.</textarea>
         // TOAST
         // ==========================================
         function mostrarToast(msg) {
-            toast.textContent = msg;
+            toastMsg.textContent = msg;
             toast.classList.add('show');
             clearTimeout(toast._timer);
             toast._timer = setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
-
-        // ==========================================
+          // ==========================================
         // INICIALIZAR CON CV POR DEFECTO
         // ==========================================
         cvMaestro = CV_POR_DEFECTO;
-        fileStatus.innerHTML = '📄 Usando CV maestro por defecto';
-        fileStatus.style.color = '#b5aa99';
+        fileStatus.innerHTML = '<i class="fas fa-file-alt"></i> Usando CV maestro por defecto';
+        fileStatus.style.color = 'var(--text-dim)';
         fileName.textContent = 'CV por defecto (interno)';
 
-        // Generar CV automáticamente al cargar
         setTimeout(generarCV, 400);
+        
+       // ==========================================
+// DESCARGAR PLANTILLA JSON (.txt)
+// ==========================================
+function descargarPlantillaJSON() {
+    // Plantilla con la estructura exacta que espera la herramienta
+    const plantilla = {
+        nombre: "NOMBRE COMPLETO",
+        subtitulo: "Puesto o especialidad profesional",
+        contacto: "Ciudad, País | correo@ejemplo.com | Cel: +52 000 000 0000 | Portfolio: url | LinkedIn: usuario",
+        habilidades: [
+            {
+                categoria: "Categoría de habilidad 1:",
+                descripcion: "Describe aquí tus habilidades separadas por comas. Ejemplo: Identidad visual, diseño editorial, campañas publicitarias, etc."
+            },
+            {
+                categoria: "Categoría de habilidad 2:",
+                descripcion: "Describe aquí tus herramientas o software. Ejemplo: Adobe Creative Cloud, Figma, HTML/CSS/JS, etc."
+            }
+        ],
+        experiencia: [
+            {
+                empresa: "NOMBRE DE LA EMPRESA",
+                ubicacion: "Ciudad, País",
+                fechas: "2020 – Presente",
+                puesto: "Tu puesto o rol",
+                descripcion: "Describe aquí tus responsabilidades y logros en un párrafo continuo. Evita bullets, escribe de forma narrativa como en un CV formal."
+            },
+            {
+                empresa: "SEGUNDA EMPRESA",
+                ubicacion: "Ciudad, País",
+                fechas: "2018 – 2020",
+                puesto: "Otro puesto",
+                descripcion: "Descripción de tus responsabilidades en este rol."
+            }
+        ],
+        colaboraciones: [
+            { proyecto: "Nombre del cliente o proyecto", detalle: "Breve descripción del trabajo realizado" },
+            { proyecto: "Otro cliente", detalle: "Descripción breve" }
+        ],
+        educacion: {
+            carrera: "Nombre de la carrera",
+            universidad: "Nombre de la universidad",
+            ubicacion: "Ciudad, País",
+            año: "Año de titulación o estado"
+        },
+        cursos: [
+            "Año - Nombre del curso o certificación",
+            "Año - Otro curso"
+        ],
+        idiomas: [
+            "Español (México): Nativo",
+            "Inglés: B2 (lectura y comprensión técnica avanzada)"
+        ]
+    };
+
+    // Convertimos a JSON con formato legible (2 espacios de indentación)
+    const contenido = JSON.stringify(plantilla, null, 2);
+
+    const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'plantilla_cv_maestro.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+
+    mostrarToast('Plantilla JSON descargada correctamente');
+} 
+
+// ==========================================
+// DESCARGAR PDF (con traducción automática)
+// ==========================================
+async function descargarPDF() {
+    if (!cvHTMLActual) {
+        mostrarToast('Primero genera el CV');
+        return;
+    }
+
+    const idioma = document.getElementById('langSelector').value;
+    const cv = cvMaestro || CV_POR_DEFECTO;
+
+    // Mostrar estado de traducción
+    if (idioma !== 'es') {
+        statusMsg.textContent = 'Traduciendo al ' + document.querySelector(`#langSelector option[value="${idioma}"]`).textContent + '…';
+        statusMsg.style.color = 'var(--gold)';
+    }
+
+    let cvTraducido = cv;
+    try {
+        if (idioma !== 'es') {
+            cvTraducido = await traducirCV(cv, idioma);
+        }
+    } catch (err) {
+        console.error(err);
+        mostrarToast('Error al traducir, se usará el original');
+    }
+
+    const htmlTraducido = construirCVHTML(cvTraducido, idioma);
+
+    // Crear un contenedor temporal fuera de pantalla con el CV traducido
+    const temp = document.createElement('div');
+    temp.innerHTML = htmlTraducido;
+    temp.className = 'cv-preview';
+    temp.style.position = 'fixed';
+    temp.style.left = '-9999px';
+    temp.style.top = '0';
+    temp.style.width = '210mm';
+    temp.style.minHeight = '297mm';
+    temp.style.padding = '18mm 16mm';
+    temp.style.background = '#ffffff';
+    temp.style.color = '#1a1a1a';
+    temp.style.boxShadow = 'none';
+    temp.style.borderRadius = '0';
+    temp.style.fontFamily = fontSelector.value + ', Roboto, Calibri, Arial, sans-serif';
+    temp.style.fontSize = '10.5pt';
+    temp.style.lineHeight = '1.55';
+
+    document.body.appendChild(temp);
+
+    const opciones = {
+        margin: 0,
+        filename: `CV_Paola_Herrera_Sol_${idioma.toUpperCase()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            backgroundColor: '#ffffff'
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    try {
+        await html2pdf().set(opciones).from(temp).save();
+        mostrarToast('PDF en ' + idioma.toUpperCase() + ' descargado');
+    } catch (err) {
+        console.error(err);
+        mostrarToast('Error al generar el PDF');
+    } finally {
+        document.body.removeChild(temp);
+        statusMsg.textContent = '';
+    }
+}
+
     </script>
 
 </body>
-</html>
+</html>  
